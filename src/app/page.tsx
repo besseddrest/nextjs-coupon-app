@@ -1,27 +1,34 @@
 "use client"
 
-import Coupon from "@/components/Coupon"
+import CouponComponent from "@/components/Coupon"
 import { useState } from "react"
+import { coupons as couponData } from "../data/coupons"
+import Coupon from "../interfaces/coupon"
 
 export default function Home() {
-  const tempAll = new Array(5).fill(null);
-  const tempRedeemed = new Array(2).fill(null);
-  const [availableCoupons, setAvailableCoupons] = useState(tempAll)
-  const [redeemedCoupons, setRedeemedCoupons] = useState(tempAll)
+  const [allCoupons, setAllCoupons] = useState<Coupon[]>(couponData)
+  
+  function handleRedeem(index: number) {
+    const tempCoupons = [...allCoupons]
+    tempCoupons[index].isRedeemed = !tempCoupons[index].isRedeemed
+    setAllCoupons([...tempCoupons])
+  }
 
   return (
-    <main className="content">
+    <main className="content flex">
       <h1>Coupon App</h1>
-      <div className="total-points-available">
+      <div className="total-points-available flex-auto">
         You have earned a total of X points!
       </div>
-      <div className="coupons-container">
+      <div className="coupons-container  flex-auto">
         <div className="available-coupons">
           {/* List of available coupons */}
           <h2>Available</h2>
           <div className="coupons">
             {
-              availableCoupons.map((item: any, i: number) => <Coupon key={i} />)
+              allCoupons.map((item: Coupon, i: number) => {
+                if (item.isRedeemed) return <CouponComponent handleRedeem={handleRedeem} item={item} key={i} index={i}/>
+              })
             }
           </div>
         </div>
@@ -30,7 +37,9 @@ export default function Home() {
           <h2>Redeemed</h2>
           <div className="coupons">
             {
-              redeemedCoupons.map((item: any, i: number) => <Coupon key={i} />)
+              allCoupons.map((item: Coupon, i: number) => {
+                if (!item.isRedeemed) return <CouponComponent handleRedeem={handleRedeem} item={item} key={i} index={i} />
+              })
             }
           </div>
           <div className="total-points-redeemed">

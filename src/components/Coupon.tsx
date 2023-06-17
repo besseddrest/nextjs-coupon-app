@@ -1,12 +1,17 @@
-export default function Coupon() {
+import Coupon from "@/interfaces/coupon"
+
+export default function CouponComponent(props: { item: Coupon, handleRedeem(index: number): void, index: number }) {
+  const { id, name, description, value } = props.item
+  const handleReem = props.handleRedeem;
+  const index = props.index
   return (
-    <div className="coupon">
-      <h3>Foo Bar</h3>
+    <div id={`item-${ id }`} className="coupon">
+      <h3>{ name }</h3>
       <p>
-        This is the coupon description
+        { description }
       </p>
-      <div className="coupon__value">69 pts</div>
-      <button>Redeem</button>
+      <div className="coupon__value">{ value } pts</div>
+      <button onClick={() => handleReem(index) }>Redeem</button>
     </div>
   )
 }
