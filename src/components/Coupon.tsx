@@ -2,7 +2,7 @@ import Coupon from "@/interfaces/coupon"
 
 export default function CouponComponent(props: { item: Coupon, handleRedeem(index: number): void, index: number }) {
   const { id, name, description, value } = props.item
-  const handleReem = props.handleRedeem;
+  const handleRedeem = props.handleRedeem;
   const index = props.index
   return (
     <div id={`item-${ id }`} className="coupon">
@@ -11,7 +11,7 @@ export default function CouponComponent(props: { item: Coupon, handleRedeem(inde
         { description }
       </p>
       <div className="coupon__value">{ value } pts</div>
-      <button onClick={() => handleReem(index) }>Redeem</button>
+      <button onClick={() => handleRedeem(index) }>Redeem</button>
     </div>
   )
 }
